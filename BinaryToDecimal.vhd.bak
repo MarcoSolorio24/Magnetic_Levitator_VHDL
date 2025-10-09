@@ -1,0 +1,95 @@
+Library IEEE;
+Use IEEE.Std_logic_1164.all;
+Use IEEE.Numeric_Std.all;
+Use IEEE.STD_LOGIC_Arith.All;
+
+Entity BinaryToDecimal is 
+	GENERIC(
+		nBits : integer := 9;
+		Ticks : integer := 25_000_000
+	);
+	PORT(
+	RST 		 : in Std_Logic;
+	CLK 		 : in Std_Logic;
+	STR 		 : in Std_Logic;
+	DIN 		 : in Std_Logic_Vector(nBits - 1 downto 0);
+	ONES 		 : out Std_Logic_Vector(3 downto 0);
+	TENS 		 : out Std_Logic_Vector(3 downto 0);
+	HUND 		 : out Std_Logic_Vector(3 downto 0);
+	THOU 		 : out Std_Logic_Vector(3 downto 0);
+	TEN_THOU  : out Std_Logic_Vector(3 downto 0);
+	HUND_THOU : out Std_Logic_Vector(3 downto 0)
+	);
+End Entity BinaryToDecimal;
+
+
+Architecture Structural of BinaryToDecimal is	 
+--======== Component Declaration =============================================================================
+Component DecimalCounter is
+	PORT(
+		RST : in Std_Logic;
+		CLK : in Std_Logic;
+		ENI : in Std_Logic;
+		ONES : out Std_Logic_vector(3 downto 0);
+		TENS : out Std_Logic_vector(3 downto 0);
+		HUND : out Std_Logic_vector(3 downto 0);
+		THOU : out Std_Logic_vector(3 downto 0);
+		--TEN_THOU  : out Std_Logic_Vector(3 downto 0);
+		--HUND_THOU : out Std_Logic_Vector(3 downto 0)
+	);
+End Component;
+
+Component LatchSR is
+	PORT(
+		RST 	: in Std_Logic;
+		CLK		: in Std_Logic;
+		SET 	: in Std_Logic;
+		CLR 	: in Std_Logic;
+		SOUT  	: out Std_Logic
+	);
+End Component;	 
+
+Component FreeRunCounter is 
+	GENERIC(
+		nBits : integer := 9
+	);
+	PORT(
+		RST : in Std_Logic;
+		CLK : in Std_Logic;
+		INC : in Std_Logic;
+		CNT : out Std_Logic_Vector(nBits-1 Downto 0)
+	);
+End Component;
+
+Component Timer is
+	GENERIC(
+	   Ticks : integer := 10
+	);
+	PORT(
+		RST : in Std_Logic;
+		CLK : in Std_Logic;
+		EOT : out Std_Logic
+	);
+End Component Timer;	
+
+--======== Signals Declarations =============================================================================
+Signal ENA, GTE, INC, RSS, CLR, CLK_O: Std_Logic := '0';
+Signal CNT : Std_Logic_Vector(nBits - 1 downto 0):= (Others => '0'); 
+Begin	 
+	
+--======== Component Instances  =============================================================================	
+	
+	U01 : LatchSR Port Map(RST, CLK, STR, CLR, ENA);
+	U02 : FreeRunCounter Generic map(nBits) Port map(ENA, CLK_O, '1',CNT);
+	U03 : DecimalCounter Port Map(RSS, CLK_O, INC, ONES, TENS, HUND, THOU);  
+	U04 : Timer Generic Map(Ticks) Port Map(RST, CLK, CLK_O);
+	
+--============================================================================================================
+	
+	GTE <= '1' when DIN > CNT else '0';
+	INC <= GTE and ENA;	
+	RSS <= RST and not(STR);
+	CLR <= not(GTE); 
+	
+End Architecture Structural;
+
