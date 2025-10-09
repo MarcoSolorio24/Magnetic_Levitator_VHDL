@@ -1,7 +1,9 @@
 # Magnetic_Levitator_VHDL
+
 Develop a code to implement and control a magnetic levitator with Intel FPGA D10 Lite
 
 #About the Project
+
 The project is a Magnetic Levitator controller with a FPGA D10 LITE in VHDL, the fisical model 
 of the Magentic Levitator contain a Hall sensor, electromagnet and a PCB with mosfets that will be controlled
 with the FPGA through PWM (50KHz).
