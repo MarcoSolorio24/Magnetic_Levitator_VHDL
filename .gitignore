@@ -1,0 +1,94 @@
+# ---------------------------------------
+# Archivos generados por herramientas FPGA
+# ---------------------------------------
+*.bit
+*.bin
+*.mcs
+*.prm
+*.rpt
+*.sof
+*.srf
+*.xrf
+*.ncd
+*.ngc
+*.dcp
+*.bgn
+*.lso
+*.jou
+*.log
+*.str
+*.xml
+*.html
+*.pb
+*.syr
+*.csv
+
+# ---------------------------------------
+# Archivos temporales y de compilación
+# ---------------------------------------
+*.o
+*.obj
+*.elf
+*.map
+*.tmp
+*.bak
+*.backup
+*.swp
+*.swo
+
+# ---------------------------------------
+# Archivos de simulación (ModelSim, GHDL)
+# ---------------------------------------
+*.vcd
+*.wlf
+*.vstf
+*.ghw
+*.asdb
+*.wave
+vsim.wlf
+transcript
+work/
+vsim.dbg
+modelsim.ini
+
+# ---------------------------------------
+# Archivos de Quartus / Vivado
+# ---------------------------------------
+*.qpf
+*.qsf
+*.qws
+*.qdf
+*.qmsg
+*.qdb
+*.qxp
+*.qsys
+*.sopcinfo
+*.ip_user_files/
+*.cache/
+*.runs/
+*.hw/
+*.sdk/
+*.ipynb_checkpoints/
+.xpr
+.Xil/
+
+# ---------------------------------------
+# Configuraciones locales y de IDEs
+# ---------------------------------------
+.vscode/
+.idea/
+*.user
+*.log
+*.ini
+*.settings/
+*.DS_Store
+
+# ---------------------------------------
+# Otros directorios comunes
+# ---------------------------------------
+temp/
+tmp/
+output/
+build/
+simulation/
+generated/
